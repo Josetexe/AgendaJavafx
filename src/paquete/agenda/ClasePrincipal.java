@@ -5,6 +5,7 @@
  */
 package paquete.agenda;
 
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -36,7 +37,7 @@ public class ClasePrincipal extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        v=new VBox();
+        v=new VBox(30);
         nombre=new TextField();
         apellido=new TextField();
         telefono=new TextField();
@@ -44,6 +45,7 @@ public class ClasePrincipal extends Application {
         Label lbl_nombre=new Label("Nombre:");
         Label lbl_apellido=new Label("Apellido:");
         Label lbl_telefono=new Label("Telefono:");
+        Button btn_recuperar=new Button("Recuperar");
         
         btn_saludar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -59,7 +61,17 @@ public class ClasePrincipal extends Application {
                 
             }
         });
-        v.getChildren().addAll(lbl_nombre,nombre,lbl_apellido,apellido,lbl_telefono,telefono,btn_saludar);
+        
+        btn_recuperar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                ArrayList<Contacto> lista_contacto=new ArrayList();
+                lista_contacto=AccesoFichero.recuperarContactos();
+                SegundaVentana.mostrarVentana("Contactos", lista_contacto);
+            }
+        });
+        
+        v.getChildren().addAll(lbl_nombre,nombre,lbl_apellido,apellido,lbl_telefono,telefono,btn_saludar,btn_recuperar);
         Scene escena=new Scene(v, 300, 600, Color.AQUAMARINE);
         primaryStage.setScene(escena);
         primaryStage.show();
